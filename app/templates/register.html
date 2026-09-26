@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GetTodoApp | Initialize Account Gateway</title>
+    <style>
+        :root {
+            --bg-dark: #0a0a0c;
+            --panel-dark: #121216;
+            --border-glow: #1f1f26;
+            --terminal-green: #00ff66;
+            --text-main: #e2e8f0;
+            --text-muted: #64748b;
+        }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'SF Pro Display', -apple-system, sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .auth-card {
+            background: var(--panel-dark);
+            border: 1px solid var(--border-glow);
+            border-radius: 12px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+        .brand { font-weight: 700; font-size: 1.5rem; letter-spacing: -0.03em; text-align: center; margin-bottom: 2rem; }
+        .brand span { color: var(--terminal-green); }
+        .form-group { margin-bottom: 1.2rem; }
+        label { display: block; margin-bottom: 0.4rem; color: var(--text-muted); font-size: 0.85rem; }
+        input {
+            width: 100%; padding: 0.75rem; background: #1a1a22; border: 1px solid var(--border-glow);
+            border-radius: 6px; color: var(--text-main); box-sizing: border-box;
+        }
+        input:focus { border-color: var(--terminal-green); outline: none; }
+        .btn {
+            background: var(--terminal-green); color: #000; border: none; padding: 0.75rem 1rem;
+            border-radius: 6px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 1rem;
+        }
+        .switch-prompt { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 1.5rem; }
+        .switch-prompt a { color: var(--terminal-green); text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <div class="auth-card">
+        <div class="brand">gettodo<span>app</span></div>
+        <h3 style="margin-top: 0; font-weight: 500; text-align: center; margin-bottom: 1.5rem;">Create Production Profile</h3>
+        
+        <form id="register-form">
+            <div class="form-group">
+                <label for="email">Email Coordinate</label>
+                <input type="email" id="email" placeholder="name@domain.com" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Security Password</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn">Deploy Account Profile</button>
+        </form>
+        <div class="switch-prompt">
+            Already have a profile node? <a href="/login">Authenticate Here</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    alert('Profile registration complete! Proceeding to authentication portal.');
+                    window.location.href = '/login';
+                } else {
+                    alert('Registration Intercept: ' + data.error);
+                }
+            } catch (err) {
+                alert('Network gateway execution failure: ' + err.message);
+            }
+        });
+    </script>
+</body>
+</html>

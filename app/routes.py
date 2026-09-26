@@ -52,6 +52,26 @@ from sqlalchemy import select
 
 # --- USER INTERFACE GATEWAY ROUTE ---
 
+
+# --- VISUAL INTERFACE BRAND PORTAL ROUTING OUTLETS ---
+
+@auth_bp.route("/register")
+def render_registration_page():
+    """Serves the secure user profile registration front-facing portal page."""
+    return render_template("register.html")
+
+@auth_bp.route("/login")
+def render_login_page():
+    """Serves the secure profile authentication entrance gate portal page."""
+    return render_template("login.html")
+
+@auth_bp.route("/")
+def auto_route_root():
+    """Intercepts unmapped domain attempts and smoothly directs them straight to registration."""
+    return render_template("register.html")
+
+
+
 @auth_bp.route("/dashboard")
 def render_dashboard():
     """Rerves the dark-theme central task management execution panel dashboard."""

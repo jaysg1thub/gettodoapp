@@ -101,13 +101,22 @@
     </div>
 
     <script>
+        // 🚀 Dynamic User Session Verification Guard (Top Variables Section)
+        const activeUserId = localStorage.getItem('todo_user_id') || 1;
+        const activeUserEmail = localStorage.getItem('todo_user_email') || "Secure Node Active";
+        
+        // Update user display element at the top navigation row natively
+        document.getElementById('user-display').innerText = `Node: ${activeUserEmail}`;
+
+        // Your existing elements continue right below:
         const taskForm = document.getElementById('task-form');
         const todoWorkspace = document.getElementById('todo-workspace');
 
         // 🚀 1. Fetch and render active task matrix rails from Postgres cache
         async function fetchTasks() {
             try {
-                const response = await fetch('/api/todos?user_id=1');
+                const response = await fetch(`/api/todos?user_id=${activeUserId}`);
+
                 if (!response.ok) throw new Error('Task aggregation failed');
                 
                 const tasks = await response.json();
