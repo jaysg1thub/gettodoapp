@@ -29,7 +29,11 @@ def create_app():
         db.create_all()
         print("Jarboe Digital Matrix: PostgreSQL Relational Tables Synchronized Successfully.")
 
+    # 🚀 The blueprint import must happen FIRST!
     from app.routes import auth_bp
-    app.register_blueprint(auth_bp)
+
+    #  THE PERFECT REALIGNMENT (Line 35)
+    app.register_blueprint(auth_bp, url_prefix="/auth")
+
 
     return app
