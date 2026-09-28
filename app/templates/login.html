@@ -89,9 +89,10 @@
 
                 const data = await response.json();
                 if (response.ok) {
-                    //  NEW WAY
-                    localStorage.setItem('todo_user_id', data.user_id);
-                    localStorage.setItem('todo_user_email', data.email);
+                //  To this nested data-aligned layout:
+                localStorage.setItem('todo_user_id', data.user.id);
+                localStorage.setItem('todo_user_email', data.user.email);
+
 
                     window.location.href = '/auth/dashboard';
                 } else {
