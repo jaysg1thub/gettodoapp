@@ -33,7 +33,7 @@ def create_app():
     from app.routes import auth_bp
 
     #  THE PERFECT REALIGNMENT (Line 35)
-    app.register_blueprint(auth_bp, url_prefix="/auth")
+    app.register_blueprint(auth_bp)
 
 
     return app

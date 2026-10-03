@@ -103,7 +103,7 @@
     <script>
         //  To this clean, defensive check:
         const storedId = localStorage.getItem('todo_user_id');
-        const activeUserId = (storedId && storedId !== "undefined") ? parseInt(storedId) : 3;
+        const activeUserId = (storedId && storedId !== "undefined") ? parseInt(storedId) : parseInt(localStorage.getItem("user_id")) || 2;
         const activeUserEmail = localStorage.getItem('todo_user_email') || "Secure Node Active";
 
         // Update user display element at the top navigation row natively
@@ -116,7 +116,7 @@
         // 🚀 1. Fetch and render active task matrix rails from Postgres cache
         async function fetchTasks() {
             try {
-                const response = await fetch(`/auth/api/todos?user_id=${activeUserId}`);
+                const response = await fetch(`/api/todos?user_id=${activeUserId}`);
 
                 if (!response.ok) throw new Error('Task aggregation failed');
                 
@@ -162,14 +162,14 @@
             const priority = document.getElementById('task-priority').value;
 
             try {
-                const response = await fetch('/auth/api/todos', {
+                const response = await fetch('/api/todos', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         title: title,
                         description: description,
                         priority: priority,
-                        category: "DBA_Core", // Staging category tag parameter
+                        category: "Operations", // Staging category tag parameter
                         user_id: activeUserId
                     })
                 });
