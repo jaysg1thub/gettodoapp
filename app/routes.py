@@ -90,3 +90,18 @@ def get_tasks():
         return jsonify(task_list), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@auth_bp.route("/api/todos/<int:todo_id>", methods=["DELETE"])
+def delete_task(todo_id):
+    try:
+        todo = db.session.get(Todo, todo_id)
+        if not todo:
+            return jsonify({"error": "Task target not found in PostgreSQL cache"}), 404
+        
+        db.session.delete(todo)
+        db.session.commit()
+        return jsonify({"message": "Task row purged successfully from relational rails"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": f"Task purge failure: {str(e)}"}), 500
+
